@@ -60,13 +60,13 @@ public class SmoothLineChart extends View {
 		
 		if (values != null && values.length > 0) {
 			mMaxY = values[0].y;
-			mMinY = values[0].y;
+			//mMinY = values[0].y;
 			for (PointF point : values) {
 				final float y = point.y;
 				if (y > mMaxY) 
 					mMaxY = y;
-				if (y < mMinY)
-					mMinY = y;
+				/*if (y < mMinY)
+					mMinY = y;*/
 			}
 		}
 				
@@ -86,8 +86,8 @@ public class SmoothLineChart extends View {
 		
 		final float left = mValues[0].x;
 		final float right = mValues[mValues.length-1].x;
-		final float dX = (right - left) > 0 ? (right - left) : (2);
-		final float dY =  (mMaxY-mMinY) > 0 ? (mMaxY-mMinY) : (2);
+		final float dX = (right - left) > 0 ? (right - left) : (2);	
+		final float dY = (mMaxY-mMinY) > 0 ? (mMaxY-mMinY) : (2);
 				
 		mPath.reset();
 				
@@ -103,7 +103,7 @@ public class SmoothLineChart extends View {
 		float lX = 0, lY = 0;
 		mPath.moveTo(points.get(0).x, points.get(0).y);
 		for (int i=1; i<size; i++) {	
-			PointF p = points.get(i);		// current point
+			PointF p = points.get(i);	// current point
 			
 			// first control point
 			PointF p0 = points.get(i-1);	// previous point
