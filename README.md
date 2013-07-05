@@ -14,3 +14,7 @@ Furthermore, the distance between a control point and its related point is propo
 
 
 ![SmoothLineChart](SmoothLineChart-explain.png)
+
+Equally spaced points
+=================
+It is also provided a simpler version of the custom view for equally spaced points
