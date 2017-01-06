@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
 				new PointF(50, 31), 
 				new PointF(62, 24), 
 				new PointF(80, 28)
-			}); 
+			}, true);
 		
 		SmoothLineChartEquallySpaced chartES = (SmoothLineChartEquallySpaced) findViewById(R.id.smoothChartES);
 		chartES.setData(new float[] { 
@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
 				35,
 				24,
 				28
-			}); 
+			}, false);
 		
 	}
 

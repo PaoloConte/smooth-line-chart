@@ -29,7 +29,8 @@ public class SmoothLineChart extends View {
 	private PointF[] mValues;
 	private float mMinY;
 	private float mMaxY;
-	
+
+	private boolean textCaptionEnable;
 
 	public SmoothLineChart(Context context) {
 		this(context, null, 0);
@@ -55,8 +56,9 @@ public class SmoothLineChart extends View {
 		mPath = new Path();
 	}
 	
-	public void setData(PointF[] values) {
-		mValues = values;		
+	public void setData(PointF[] values, boolean textCaptionEnable) {
+		mValues = values;
+		this.textCaptionEnable = textCaptionEnable;
 		
 		if (values != null && values.length > 0) {
 			mMaxY = values[0].y;
@@ -150,6 +152,49 @@ public class SmoothLineChart extends View {
 		for (PointF point : points) {
 			canvas.drawCircle(point.x, point.y, (mCircleSize-mStrokeSize)/2, mPaint);
 		}
+
+		if (textCaptionEnable) {
+			for (int i = 0; i < points.size(); i++) {
+				String pointCaption = String.valueOf(mValues[i].x) + ", " + String.valueOf(mValues[i].y);
+
+				Rect textBox = new Rect();
+				tPaint.getTextBounds(pointCaption, 0, pointCaption.length(), textBox);
+				// Calculate Middle point of Caption and distance between Caption and Chart Line
+				float textX= (float) textBox.width();
+				float textY = changeUnit(17, "sp");
+
+				// If there is not enough space between Caption and Chart, Caption's position set below the Chart
+				if (changeUnit((int) (mMaxY - todayPoint.y), "sp") > textY) {
+					canvas.drawText(pointCaption, points.get(i).x - (textX / 2), points.get(i).y - textY, tPaint);
+				} else {
+					canvas.drawText(pointCaption, points.get(i).x - (textX / 2), points.get(i).y + textY, tPaint);
+				}
+			}
+		}
 		
+	}
+
+	private Paint setText() {
+		Paint tPaint = new Paint();
+
+		// draw today text above point
+		tPaint.setColor(CHART_COLOR);
+		tPaint.setTextSize(30);
+
+		return tPaint;
+	}
+
+	public float changeUnit(int value, String unit) {
+		float result = 0;
+
+		if (unit.contains("dp")) {
+			result = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, getResources().getDisplayMetrics());
+		} else if (unit.contains("sp")) {
+			result = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, value, getResources().getDisplayMetrics());
+		} else if (unit.contains("px")) {
+			result = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, value, getResources().getDisplayMetrics());
+		}
+
+		return result;
 	}
 }
