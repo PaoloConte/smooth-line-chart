@@ -29,8 +29,7 @@ public class SmoothLineChartEquallySpaced extends View {
 	private float[] mValues;
 	private float mMinY;
 	private float mMaxY;
-
-	private boolean textCaptionEnable;
+	
 
 	public SmoothLineChartEquallySpaced(Context context) {
 		this(context, null, 0);
@@ -56,9 +55,8 @@ public class SmoothLineChartEquallySpaced extends View {
 		mPath = new Path();
 	}
 	
-	public void setData(float[] values, boolean textCaptionEnable) {
-		mValues = values;
-		this.textCaptionEnable = textCaptionEnable;
+	public void setData(float[] values) {
+		mValues = values;		
 		
 		if (values != null && values.length > 0) {
 			mMaxY = values[0];
@@ -146,23 +144,6 @@ public class SmoothLineChartEquallySpaced extends View {
 		mPaint.setColor(Color.WHITE);
 		for (PointF point : points) {
 			canvas.drawCircle(point.x, point.y, (mCircleSize-mStrokeSize)/2, mPaint);
-		}
-
-		if (textCaptionEnable) {
-			Rect textBox = new Rect();
-			tPaint.getTextBounds(String.valueOf(mValues[i]), 0, String.valueOf(mValues[i]).length(), textBox);
-			// Calculate Middle point of Caption and distance between Caption and Chart Line
-			float textX= (float) textBox.width();
-			float textY = changeUnit(17, "sp");
-
-			// If there is not enough space between Caption and Chart, Caption's position set below the Chart
-			for (int i = 0; i < points.size(); i++) {
-				if (changeUnit((int) (mMaxY - todayPoint.y), "sp") > textY) {
-					canvas.drawText(String.valueOf(String.valueOf(mValues[i])), points.get(i).x - (textX / 2), points.get(i).y - textY, tPaint);
-				} else {
-					canvas.drawText(String.valueOf(String.valueOf(mValues[i])), points.get(i).x - (textX / 2), points.get(i).y + textY, tPaint);
-				}
-			}
 		}
 		
 	}
