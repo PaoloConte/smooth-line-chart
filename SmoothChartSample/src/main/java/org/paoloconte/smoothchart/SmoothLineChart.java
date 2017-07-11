@@ -24,7 +24,7 @@ public class SmoothLineChart extends View {
 			this.values = values;
 		}
 	}
-	
+
 	private static final int CIRCLE_SIZE = 8;
 	private static final int STROKE_SIZE = 2;	
 	private static final float SMOOTHNESS = 0.3f; // the higher the smoother, but don't go over 0.5
@@ -67,10 +67,10 @@ public class SmoothLineChart extends View {
 	public void setData(Line[] lines) {
 		mLines = lines;
 
+		mMaxY = 0;
 		if (lines != null) {
 			for (Line line : lines) {
-				if (line.values != null && line.values.length > 0) {
-					mMaxY = line.values[0].y;
+				if (line.values != null) {
 					for (PointF point : line.values) {
 						final float y = point.y;
 						if (y > mMaxY)
